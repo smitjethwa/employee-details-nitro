@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lts/amazonlinux:latest
+FROM public.ecr.aws/amazonlinux/amazonlinux:latest
 RUN yum install -y python3 pip
 COPY . /app
 WORKDIR /app
