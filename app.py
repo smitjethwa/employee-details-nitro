@@ -44,8 +44,8 @@ class DynamoDBClient:
         return response.get("Item")
     
     def encrypt_data(self,plain_text):
-        response = self.kms_client.encrypt(KeyId=self.KMS_KEY_ID, Plaintext=plain_text.encode())
-        return response["CiphertextBlob"]
+        response = self.kms_client.encrypt(KeyId=self.KMS_KEY_ID, Plaintext=plain_text.encode("utf-8"))
+        return response["CiphertextBlob"].hex()
 
     def decrypt_data(self,cipher_text):
         response = self.kms_client.decrypt(CiphertextBlob=cipher_text)
@@ -78,7 +78,7 @@ def store_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@app.route("/fetch", methods=["GET"])
+@app.route("/fetch", methods=["POST"])
 def retrieve_data():
     data = request.json
     if not data:
