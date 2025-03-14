@@ -48,8 +48,8 @@ class DynamoDBClient:
         return response["CiphertextBlob"].hex()
 
     def decrypt_data(self,cipher_text):
-        response = self.kms_client.decrypt(CiphertextBlob=cipher_text)
-        return response["Plaintext"].decode()
+        response = self.kms_client.decrypt(CiphertextBlob=bytes.fromhex(cipher_text))
+        return response["Plaintext"].decode("utf-8")
 
 # Initialize Flask and DynamoDB client
 app = Flask(__name__)
